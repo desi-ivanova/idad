@@ -1,0 +1,19 @@
+.DS_Store
+.idea
+__pycache__
+*.pickle
+.Rproj.user
+mlruns/*
+mlflow_outputs/*
+*.o
+*.csv
+.vscode/*
+.vscode/*
+zignore*
+evalruns/*
+slurm_scripts/run_*
+dad_code/*
+
+# Binary PyTorch models
+*.pt
+*.npz
