@@ -1,13 +1,14 @@
 # Implicit Deep Adaptive Design (iDAD)
 This code supports the NeurIPS paper 'Implicit Deep Adaptive Design: Policy-Based Experimental Design without Likelihoods'.
 
+```
 @article{ivanova2021implicit,
   title={Implicit Deep Adaptive Design: Policy-Based Experimental Design without Likelihoods},
   author={Ivanova, Desi R. and Foster, Adam and Kleinegesse, Steven and Gutmann, Michael and Rainforth, Tom},
   journal={Advances in Neural Information Processing Systems (NeurIPS)},
   year={2021}
 }
-
+```
 ## Computing infrastructure requirements
 We have tested this codebase on Linux (Ubuntu x86_64) and MacOS (Big Sur v11.2.3) with Python 3.8.
 To train iDAD networks, we recommend the use of a GPU. We used one GeForce RTX 3090 GPU on a machine with 126 GiB of CPU memory and 40 CPU cores.
