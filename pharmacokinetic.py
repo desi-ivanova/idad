@@ -385,13 +385,14 @@ def train_model(
     )
 
     if mi_estimator == "sPCE":
-        mi_loss_instance = mi_estimator_options[mi_estimator](
+        mi_loss_instance = PriorContrastiveEstimation(
             model=pharmaco.model,
             batch_size=batch_size,
             num_negative_samples=num_negative_samples,
         )
+        pharmaco.design_net = design_net  # no critic to be trained
     elif mi_estimator == "BA":
-        mi_loss_instance = mi_estimator_options[mi_estimator](
+        mi_loss_instance = BarberAgakov(
             model=pharmaco.model,
             critic=critic_net,
             batch_size=batch_size,
@@ -492,7 +493,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--mi-estimator",
-        default="InfoNCE",
+        default="sPCE",
         help="Mutual information estimator",
         choices=["InfoNCE", "NWJ", "sPCE", "BA"],
         type=str,

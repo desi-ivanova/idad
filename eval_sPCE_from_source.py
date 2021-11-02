@@ -103,20 +103,19 @@ def eval_from_source(
         EIG_proxy_lower = torch.tensor(
             [-loss_lower.loss() for _ in range(meta["num_histories"] // n)]
         )
-        print("lower", EIG_proxy_lower)
 
         EIGs_mean.loc[t_exp, "lower"] = EIG_proxy_lower.mean().item()
         EIGs_mean.loc[t_exp, "upper"] = EIG_proxy_upper.mean().item()
-        print(f"T = {t_exp} mean:")
-        print(EIGs_mean)
         EIGs_se.loc[t_exp, "lower"] = EIG_proxy_lower.std().item() / math.sqrt(
             meta["num_histories"] // n
         )
         EIGs_se.loc[t_exp, "upper"] = EIG_proxy_upper.std().item() / math.sqrt(
             meta["num_histories"] // n
         )
-        print(f"T = {t_exp} standard error:")
-        print(EIGs_se)
+
+    print("EIG mean\n", EIGs_mean)
+    print("EIG se\n", EIGs_se)
+
     return EIGs_mean, EIGs_se
 
 

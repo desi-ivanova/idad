@@ -155,9 +155,8 @@ def main_loop(
     theta_covmat = torch.eye(p, device=device)
     prior = torch.distributions.MultivariateNormal(theta_loc, theta_covmat)
 
-    print("Sampling true theta from prior")
+    # sample true param
     true_theta = prior.sample(torch.Size([1]))
-    print("True theta:", true_theta)
 
     designs_so_far = []
     observations_so_far = []
@@ -190,11 +189,11 @@ def main_loop(
             posterior_loc.detach(),
             posterior_scale.detach(),
         )
-        print(f"design {design}, observation {observation}")
-        print("Fitted posterior", posterior_loc, posterior_scale)
-        print("True theta: ", true_theta.reshape(-1))
         designs_so_far.append(design[0])
         observations_so_far.append(observation[0])
+
+    print(f"Fitted posterior: mean = {posterior_loc}, sd = {posterior_scale}")
+    print("True theta = ", true_theta.reshape(-1))
 
     data_dict = {}
     for i, xi in enumerate(designs_so_far):
@@ -288,7 +287,7 @@ if __name__ == "__main__":
     parser.add_argument("--batch-size", default=1024, type=int)
     parser.add_argument("--device", default="cuda", type=str)
     parser.add_argument(
-        "--mlflow-experiment-name", default="location_finding_variational", type=str
+        "--mlflow-experiment-name", default="locfin_variational", type=str
     )
     parser.add_argument("--lr", default=0.005, type=float)
     parser.add_argument("--num-steps", default=5000, type=int)

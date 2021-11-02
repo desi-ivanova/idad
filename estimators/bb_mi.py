@@ -92,8 +92,6 @@ class BlackBoxMutualInformation(object):
             for node in trace.nodes.values()
             if node.get("subtype") == "latent_sample"
         ]
-        # TODO test if this fixes the issue # FIXED need to fix the latents
-        # assert len(latents) == 1
         latents = torch.cat(latents, axis=-1)
         return (latents, *zip(designs, observations))
 
@@ -203,8 +201,6 @@ class NWJ(BlackBoxMutualInformation):
             # divide by e
             * math.exp(-1)
             # average -> there are a total of batch_size * num_negative_samples entries:
-            # TODO double check this as well - given "-1" in base class I think
-            # this is correct
             / (self.batch_size * self.num_negative_samples)
         )
         loss = product_term - joint_term

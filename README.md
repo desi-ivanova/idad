@@ -1,6 +1,13 @@
 # Implicit Deep Adaptive Design (iDAD)
 This code supports the NeurIPS paper 'Implicit Deep Adaptive Design: Policy-Based Experimental Design without Likelihoods'.
 
+@article{ivanova2021implicit,
+  title={Implicit Deep Adaptive Design: Policy-Based Experimental Design without Likelihoods},
+  author={Ivanova, Desi R. and Foster, Adam and Kleinegesse, Steven and Gutmann, Michael and Rainforth, Tom},
+  journal={Advances in Neural Information Processing Systems (NeurIPS)},
+  year={2021}
+}
+
 ## Computing infrastructure requirements
 We have tested this codebase on Linux (Ubuntu x86_64) and MacOS (Big Sur v11.2.3) with Python 3.8.
 To train iDAD networks, we recommend the use of a GPU. We used one GeForce RTX 3090 GPU on a machine with 126 GiB of CPU memory and 40 CPU cores.
@@ -10,7 +17,7 @@ To train iDAD networks, we recommend the use of a GPU. We used one GeForce RTX 3
 1. Create and activate a new `conda` virtual environment as follows
 ```bash
 conda create -n idad_code
-conda activate  idad_code
+conda activate idad_code
 ```
 1. Install the correct version of PyTorch, following the instructions at [pytorch.org](https://pytorch.org/).
    For our experiments we used `torch==1.8.0` with CUDA version 11.1.
@@ -229,7 +236,7 @@ python3 baselines_pharmaco_variational.py \
     --num-histories 128 \
     --num-experiments 10 \
     --lr 0.001 \
-    --num-steps 5000\
+    --num-steps 5000 \
     --device <DEVICE>
 ```
 Copy `path_to_artifact` and pass it to the evaluation script:

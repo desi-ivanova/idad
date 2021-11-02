@@ -123,7 +123,6 @@ def optimise_design_and_critic(
         else:
             raise NotImplementedError()
 
-    print("setting optimiser, lr", lr)
     scheduler = pyro.optim.ExponentialLR(
         {
             "optimizer": optimizer,
@@ -167,10 +166,7 @@ def main_loop(
     prior = torch.distributions.MultivariateNormal(theta_loc, theta_covmat)
 
     if true_theta is None:
-        print("Sampling true theta from prior")
         true_theta = prior.sample(torch.Size([1])).exp()
-
-    print("True theta:", true_theta)
 
     designs_so_far = []
     observations_so_far = []
@@ -218,7 +214,6 @@ def main_loop(
         design_untransformed, design_transformed, observation = epidemic.forward(
             theta=true_theta
         )
-        print("DES, OBS ", design_untransformed, design_transformed, observation)
         posterior_loc, posterior_scale = critic.get_variational_params(
             *zip(design_untransformed, observation)
         )
@@ -226,10 +221,11 @@ def main_loop(
             posterior_loc.detach(),
             posterior_scale.detach(),
         )
-        print("POSTERIORS:", posterior_loc, posterior_scale)
-        print("TRUE THETA:", true_theta)
         designs_so_far.append(design_untransformed[0])
         observations_so_far.append(observation[0])
+
+    print(f"Final posterior: mean = {posterior_loc}, sd = {posterior_scale}")
+    print(f"True theta = {true_theta}")
 
     data_dict = {}
     for i, xi in enumerate(designs_so_far):
@@ -272,10 +268,6 @@ def main(
         os.makedirs("./mlflow_outputs")
 
     results_vi = {"loop": [], "seed": seed}
-    ## for presentation: thetas used in the paper (R=1.3, 3, 8)
-    # true_thetas = torch.tensor(
-    #     [[0.1977, 0.1521], [0.3332, 0.1103], [0.7399, 0.0924]]
-    # ).to(device)
     for i in range(num_loop):
         # for i, tt in enumerate(true_thetas):
         results = main_loop(
@@ -288,16 +280,8 @@ def main(
             lr=lr / (i + 1),
             lr_critic=lr_critic / (i + 1),
             annealing_scheme=annealing_scheme,
-            # true_theta=tt.unsqueeze(0),
         )
         results_vi["loop"].append(results)
-
-        if i % 8 == 0:
-            print("save")
-            # store some intermediate results as computation takes very long
-            with open(f"./mlflow_outputs/results_sir_vi_{i}.pickle", "wb") as f:
-                pickle.dump(results_vi, f)
-            mlflow.log_artifact(f"./mlflow_outputs/results_sir_vi_{i}.pickle")
 
     # Log the results dict as an artifact
     with open("./mlflow_outputs/results_sir_vi.pickle", "wb") as f:
