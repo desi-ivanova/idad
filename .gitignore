@@ -8,12 +8,8 @@ mlflow_outputs/*
 *.o
 *.csv
 .vscode/*
-.vscode/*
 zignore*
-evalruns/*
-slurm_scripts/run_*
-dad_code/*
-
+.ipynb_checkpoints/*
 # Binary PyTorch models
 *.pt
 *.npz
