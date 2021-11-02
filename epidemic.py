@@ -259,7 +259,7 @@ class Epidemic(nn.Module):
 
             xi_prev = self.lower_bound
             if verbose:
-                print("Example run {}".format(i))
+                print("Example run")
                 print(f"*True Theta: {theta[i]}*")
 
             for t in range(self.T):
